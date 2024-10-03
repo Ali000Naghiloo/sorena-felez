@@ -20,7 +20,8 @@ const geistMono = localFont({
   weight: "100 900",
 });
 const persianFont = localFont({
-  src: "./fonts/yekan/Yekan.woff",
+  // src: "./fonts/yekan/Yekan.woff",
+  src: "./fonts/IRANSansWeb_FaNum.ttf",
   variable: "--font-yekan",
   weight: "100 900",
 });

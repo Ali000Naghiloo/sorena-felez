@@ -1,9 +1,9 @@
 "use client";
 import Image from "next/image";
 // import gif from "";
-import banner from "@/src/assets/landing/banner.jpg";
-import employee from "@/src/assets/landing/employee.webp";
-import employees from "@/src/assets/landing/employees.webp";
+import banner from "@/public/assets/landing/banner.jpg";
+import employee from "@/public/assets/landing/employee.webp";
+import employees from "@/public/assets/landing/employees.webp";
 import { Button, Input, Table, Tabs } from "antd";
 import dynamic from "next/dynamic";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -205,17 +205,6 @@ export default function Landing() {
       .catch();
   };
 
-  const handleGetCategories = async () => {
-    setLoading(true);
-
-    await httpService
-      .get("getMenus")
-      .then((res) => {
-        if (res?.data) setPageData({ ...pageData, posts: res.data });
-      })
-      .catch();
-  };
-
   const handleGetProducts = async () => {
     setLoading(true);
 
@@ -227,8 +216,23 @@ export default function Landing() {
       .catch();
   };
 
+  const handleGetFilters = async () => {
+    setLoading(true);
+
+    await httpService
+      .get("filters", {
+        params: {
+          // categories: ["shyralat", "anoaaa-ork"],
+          cities: ["kzoyn"],
+        },
+      })
+      .then((res) => {})
+      .catch();
+  };
+
   useEffect(() => {
-    // handleGetPosts();
+    handleGetPosts();
+    handleGetFilters();
   }, []);
 
   return (
@@ -236,11 +240,11 @@ export default function Landing() {
       <div className="w-full flex flex-col justify-start items-center mx-auto">
         {/* landing gif */}
         <video
-          autoPlay
-          controls
-          className="w-full h-[400px] my-5 rounded-lg max-w-[1600px] px-5"
+          autoPlay={true}
+          controls={false}
+          className="w-full h-[400px] my-5 rounded-lg max-w-[1600px] px-5 object-contain"
         >
-          <source src={`/assets/gif.mp4`} type="video/mp4" />
+          <source src="/assets/landing/gif.mp4" type="video/mp4" />
         </video>
 
         {/* banner and reminder */}
@@ -269,7 +273,7 @@ export default function Landing() {
         </div>
 
         {/* text */}
-        <div className="w-full flex flex-col gap-3 justify-between items-center lg:flex-row my-10 max-w-[1600px] px-5">
+        <div className="w-full flex flex-col gap-3 justify-between items-center lg:flex-row my-10 max-w-[1600px] px-5 py-10">
           <h1 className="text-4xl flex flex-col min-w-[50%]">
             <span className="font-extralight">فروش و قیمت روز آهن آلات</span>
             <span className="font-black">قیمت اهن الات ساختمانی و صنعتی</span>

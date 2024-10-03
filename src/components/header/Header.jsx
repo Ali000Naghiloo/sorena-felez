@@ -1,10 +1,20 @@
 "use client";
-import { FaPhoneVolume } from "react-icons/fa6";
-import logo from "@/src/assets/logo.png";
+import { FaAngleDown, FaPhoneVolume } from "react-icons/fa6";
+import logo from "@/public/assets/logo.png";
 import Image from "next/image";
-import { Menu } from "antd";
+import { Menu, Skeleton } from "antd";
+import useHttp from "@/src/hooks/useHttps";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
+const loadings = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
 
 export default function Header() {
+  const { httpService } = useHttp();
+  const [loading, setLoading] = useState(false);
+  const [menuItems, setMenuItems] = useState(null);
+  const router = useRouter();
+
   const tabs = [
     { block: false, name: "صفحه نخست" },
     { block: false, name: "❤️ علاقمندی شما" },
@@ -18,6 +28,49 @@ export default function Header() {
     { block: false, name: "سایر خدمات" },
     { block: false, name: "درگاه پرداخت" },
   ];
+
+  const handleGetCategories = async () => {
+    setLoading(true);
+    const transformData = (data) => {
+      return data.map((item) => {
+        // Create the transformed object for each item
+        const transformedItem = {
+          key: item.id, // id becomes key
+          label: (
+            <div
+              onClick={() => router.push(`/${item?.slug}`)}
+              className="!min-w-fit flex text-2xl"
+            >
+              {item.name}
+            </div>
+          ), // name becomes label
+          data: item,
+        };
+
+        // If there are children, recursively transform them as well
+        if (item.children && item.children.length > 0) {
+          transformedItem.children = transformData(item.children);
+        }
+
+        return transformedItem;
+      });
+    };
+
+    await httpService
+      .get("getMenus")
+      .then((res) => {
+        if (res?.data) {
+          setMenuItems(transformData(res.data));
+        }
+      })
+      .catch();
+
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    handleGetCategories();
+  }, []);
 
   return (
     <>
@@ -71,14 +124,30 @@ export default function Header() {
         </div>
 
         {/* categories */}
-        <div className="w-full flex items-center max-w-[1600px] mx-auto p-3">
+        <div className="w-full flex items-end gap-5 max-w-[1600px] mx-auto p">
           {/* logo */}
-          <div className="w-auto max-w-[150px] h-[55px]">
-            <Image src={logo} alt="logo" className="w-fit h-fit" />
+          <div className="w-auto max-w-[200px] h-[85px]">
+            <Image
+              src={logo}
+              alt="logo"
+              className="w-full h-full object-contain"
+            />
           </div>
 
-          <div className="w-full">
-            <Menu />
+          <div className="w-full h-full">
+            {!loading ? (
+              <Menu selectedKeys={null} items={menuItems} mode="horizontal" />
+            ) : (
+              <div className="w-full flex gap-3 p-3">
+                {loadings.map((l, index) => (
+                  <Skeleton.Button
+                    size="large"
+                    className="w-[200px]"
+                    key={index}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

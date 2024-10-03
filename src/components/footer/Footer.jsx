@@ -1,14 +1,14 @@
 "use client";
 import React from "react";
-import logo from "@/src/assets/logo.png";
+import logo from "@/public/assets/logo.png";
 import Image from "next/image";
 import { FaAngleLeft, FaPhone } from "react-icons/fa6";
 
 export default function Footer() {
   return (
     <>
-      <div className="w-full flex flex-col gap-10 max-w-[1600px]">
-        <div className="w-full flex flex-wrap justify-between gap-5 border-t pt-20 mt-20 px-10">
+      <div className="w-full flex flex-col items-center justify-center gap-10 mx-auto bg-white text-black">
+        <div className="w-full flex flex-wrap justify-between gap-5 border-t pt-20 mt-20 px-10 max-w-[1600px]">
           {/* descriptions */}
           <div className="flex flex-col w-full lg:w-[30%]">
             {/* logo */}
@@ -27,12 +27,12 @@ export default function Footer() {
             </span>
           </div>
 
-          {/*  */}
+          {/* quick access */}
           <div className="flex flex-col gap-5">
             <span className="text-3xl">دسترسی سریع</span>
 
             <div className="">
-              <div className="flex gap-3">
+              <div className="flex gap-3 hover:text-accent cursor-pointer">
                 <FaAngleLeft /> قیمت روز تیرآهن
               </div>
             </div>
@@ -55,7 +55,7 @@ export default function Footer() {
         </div>
 
         {/* tag */}
-        <div className="w-full p-5 text-center border-t">
+        <div className="w-full p-5 text-center border-t max-w-[1600px]">
           تمامی حقوق این سایت متعلق به{" "}
           <span className="font-bold">شرکت حامی آلیاژ آسیا</span> می باشد
         </div>

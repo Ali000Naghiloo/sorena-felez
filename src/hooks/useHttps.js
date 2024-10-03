@@ -1,11 +1,12 @@
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { getLocal } from "./functions";
 
 export const baseURL = "https://sorena.webcomdemo.ir/api/v1/";
-export const imageUrl = "https://sorena.webcomdemo.ir/storage/";
+export const imageUrl = "https://sorena.webcomdemo.ir/uploads/images/";
 
 const useHttp = () => {
-  var token = localStorage.getItem("token");
+  var token = getLocal("token");
 
   const httpService = axios.create({
     // baseURL: process.env.REACT_APP_BASE_URL,
