@@ -25,4 +25,8 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+
+  .rotate {
+    transition: all ease-in-out 1s;
+  }
 }

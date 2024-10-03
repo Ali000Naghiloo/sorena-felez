@@ -15,6 +15,9 @@ module.exports = {
         pagesBackground: "rgb(238, 238, 238)",
         accent: "#15a1ed",
       },
+      transitionProperty: {
+        rotate: "rotate",
+      },
     },
   },
   plugins: [],

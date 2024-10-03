@@ -5,6 +5,9 @@ import Footer from "@/src/components/footer/Footer";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { ConfigProvider } from "antd";
 import fa_IR from "antd/locale/fa_IR";
+import "swiper/css";
+import { Toaster } from "react-hot-toast";
+// import "swiper/swiper.min.css";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -46,6 +49,31 @@ export default function RootLayout({ children }) {
               },
             }}
           >
+            <Toaster
+              position="bottom-center"
+              reverseOrder={false}
+              gutter={8}
+              containerClassName=""
+              containerStyle={{ marginBottom: "50px" }}
+              toastOptions={{
+                // Define default options
+                className: "",
+                duration: 5000,
+                style: {
+                  background: "#363636",
+                  color: "#fff",
+                },
+
+                // Default options for specific types
+                success: {
+                  duration: 4000,
+                  theme: {
+                    primary: "green",
+                    secondary: "black",
+                  },
+                },
+              }}
+            />
             <div className="mx-auto">{children}</div>
           </ConfigProvider>
         </AntdRegistry>
