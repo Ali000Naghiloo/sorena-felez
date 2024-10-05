@@ -30,3 +30,7 @@ body {
     transition: all ease-in-out 1s;
   }
 }
+
+.ant-menu-horizontal {
+  border-bottom: none !important;
+}

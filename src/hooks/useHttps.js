@@ -2,8 +2,8 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import { getLocal } from "./functions";
 
-export const baseURL = "https://sorena.webcomdemo.ir/api/v1/";
-export const imageUrl = "https://sorena.webcomdemo.ir/uploads/images/";
+export const baseURL = "https://panel.sepantaahvaz.com/api/v1/";
+export const imageUrl = "https://panel.sepantaahvaz.com/uploads/images/";
 
 const useHttp = () => {
   var token = getLocal("token");

@@ -21,7 +21,7 @@ const geistMono = localFont({
 });
 const persianFont = localFont({
   // src: "./fonts/yekan/Yekan.woff",
-  src: "./fonts/IRANSansWeb_FaNum.ttf",
+  src: "./fonts/b-yekan/Yekan.ttf",
   variable: "--font-yekan",
   weight: "100 900",
 });
@@ -47,6 +47,14 @@ export default function RootLayout({ children }) {
               token: {
                 colorPrimary: "#15a1ed",
                 fontFamily: persianFont.style,
+              },
+              components: {
+                Tabs: {
+                  fontFamily: persianFont.style,
+                  colorBorder: "",
+                  colorBorderBg: "",
+                  colorBorderSecondary: "",
+                },
               },
             }}
           >

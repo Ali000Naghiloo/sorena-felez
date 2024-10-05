@@ -13,6 +13,7 @@ import useHttp, { imageUrl } from "@/src/hooks/useHttps";
 import { useEffect, useState } from "react";
 import formatHelper from "../helper/formatHelper";
 import moment from "jalali-moment";
+import { Pagination } from "swiper/modules";
 
 const { Search } = Input;
 export default function Landing() {
@@ -241,6 +242,7 @@ export default function Landing() {
         {/* landing gif */}
         <video
           autoPlay={true}
+          loop
           controls={false}
           className="w-full h-[400px] my-5 rounded-lg max-w-[1600px] px-5 object-contain"
         >
@@ -329,10 +331,16 @@ export default function Landing() {
           <div className="w-full">
             <Tabs items={employeesCategory} className="" />
 
-            <div className="py-5">
-              <Swiper slidesPerView={"auto"}>
+            <div className="w-full py-5">
+              <Swiper
+                slidesPerView={3}
+                spaceBetween={"50"}
+                modules={[Pagination]}
+                freeMode
+                className="cursor-pointer"
+              >
                 {employeesList.map((em, index) => (
-                  <SwiperSlide className="!w-fit mx-5" key={index}>
+                  <SwiperSlide className="!w-[300px] mx-5" key={index}>
                     <div className="flex">
                       {/* profile */}
                       <div className="w-[120px]">
@@ -466,14 +474,14 @@ export default function Landing() {
 
             {pageData.posts
               ? pageData.posts.map((post, index) => (
-                  <div key={index} className="flex gap-5 border-y">
-                    <div className="w-[120px] py-5">
+                  <div key={index} className="flex gap-5 border-y py-3">
+                    <div className="h-[100px] py-5">
                       <Image
                         width={100}
                         height={50}
                         src={imageUrl + post?.image}
                         alt=""
-                        className="w-full h-full rounded-lg"
+                        className="w-full h-full rounded-lg object-cover"
                       />
                     </div>
 
@@ -484,16 +492,17 @@ export default function Landing() {
                           ? formatHelper.toPersianString(
                               moment(post?.created_at)
                                 .locale("fa")
-                                .format("YYYY/MM/DD")
+                                .format("HH:mm")
                             )
-                          : null}
+                          : null}{" "}
+                        -
                         {post?.created_at
                           ? formatHelper.toPersianString(
                               moment(post?.created_at)
                                 .locale("fa")
-                                .format("HH:mm")
+                                .format("YYYY/MM/DD")
                             )
-                          : null}
+                          : null}{" "}
                       </span>
                     </div>
                   </div>

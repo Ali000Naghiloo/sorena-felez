@@ -38,8 +38,10 @@ export default function Header() {
           key: item.id, // id becomes key
           label: (
             <div
-              onClick={() => router.push(`/${item?.slug}`)}
-              className="!min-w-fit flex text-2xl"
+              onClick={() =>
+                router.push(`/filters?type=${item?.type}&slug=${item?.slug}`)
+              }
+              className="w-full !min-w-full flex text-2xl"
             >
               {item.name}
             </div>
@@ -124,7 +126,7 @@ export default function Header() {
         </div>
 
         {/* categories */}
-        <div className="w-full flex items-end gap-5 max-w-[1600px] mx-auto p">
+        <div className="w-full flex items-center gap-5 max-w-[1600px] mx-auto p">
           {/* logo */}
           <div className="w-auto max-w-[200px] h-[85px]">
             <Image
