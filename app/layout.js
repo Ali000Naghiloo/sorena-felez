@@ -7,6 +7,7 @@ import { ConfigProvider } from "antd";
 import fa_IR from "antd/locale/fa_IR";
 import "swiper/css";
 import { Toaster } from "react-hot-toast";
+import { ReduxProvider } from "./react-provider";
 // import "swiper/swiper.min.css";
 
 const geistSans = localFont({
@@ -36,57 +37,63 @@ export default function RootLayout({ children }) {
     <html lang="fa" dir="rtl">
       <body
         style={persianFont.style}
-        className={`${persianFont.variable} antialiased`}
+        className={`${persianFont.variable} antialiased scrollbar`}
       >
-        <Header />
-        <AntdRegistry>
-          <ConfigProvider
-            locale={fa_IR}
-            direction="rtl"
-            theme={{
-              token: {
-                colorPrimary: "#15a1ed",
-                fontFamily: persianFont.style,
-              },
-              components: {
-                Tabs: {
+        <ReduxProvider>
+          <Header />
+          <AntdRegistry>
+            <ConfigProvider
+              locale={fa_IR}
+              direction="rtl"
+              theme={{
+                token: {
+                  colorPrimary: "#15a1ed",
                   fontFamily: persianFont.style,
-                  colorBorder: "",
-                  colorBorderBg: "",
-                  colorBorderSecondary: "",
                 },
-              },
-            }}
-          >
-            <Toaster
-              position="bottom-center"
-              reverseOrder={false}
-              gutter={8}
-              containerClassName=""
-              containerStyle={{ marginBottom: "50px" }}
-              toastOptions={{
-                // Define default options
-                className: "",
-                duration: 5000,
-                style: {
-                  background: "#363636",
-                  color: "#fff",
-                },
-
-                // Default options for specific types
-                success: {
-                  duration: 4000,
-                  theme: {
-                    primary: "green",
-                    secondary: "black",
+                components: {
+                  Tabs: {
+                    fontFamily: persianFont.style,
+                    colorBorder: "",
+                    colorBorderBg: "",
+                    colorBorderSecondary: "",
+                  },
+                  Table: {
+                    headerBg: "#15a1ed",
+                    headerColor: "#fff",
                   },
                 },
               }}
-            />
-            <div className="mx-auto">{children}</div>
-          </ConfigProvider>
-        </AntdRegistry>
-        <Footer />
+            >
+              <Toaster
+                position="bottom-center"
+                reverseOrder={false}
+                gutter={8}
+                containerClassName=""
+                containerStyle={{ marginBottom: "50px" }}
+                toastOptions={{
+                  // Define default options
+                  className: "",
+                  duration: 5000,
+                  style: {
+                    background: "#363636",
+                    color: "#fff",
+                  },
+
+                  // Default options for specific types
+                  success: {
+                    duration: 4000,
+                    theme: {
+                      primary: "green",
+                      secondary: "black",
+                    },
+                  },
+                }}
+              />
+              <div className="mx-auto">{children}</div>
+            </ConfigProvider>
+          </AntdRegistry>
+          <Footer />
+        </ReduxProvider>
       </body>
     </html>
   );

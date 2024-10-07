@@ -5,6 +5,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --accent: #15a1ed;
 }
 
 /* @media (prefers-color-scheme: dark) {
@@ -28,6 +29,23 @@ body {
 
   .rotate {
     transition: all ease-in-out 1s;
+  }
+
+  .scrollbar::-webkit-scrollbar {
+    width: 10px;
+    height: 20px;
+  }
+  .scrollbar::-webkit-scrollbar-track {
+    border-radius: 100vh;
+    background: #f7f4ed;
+  }
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 100vh;
+    border: 3px solid #f6f7ed;
+  }
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #c0a0b9;
   }
 }
 

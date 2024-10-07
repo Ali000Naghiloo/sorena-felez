@@ -1,16 +1,48 @@
-"use client";
 import React from "react";
 import logo from "@/public/assets/logo.png";
 import Image from "next/image";
 import {
   FaAngleLeft,
+  FaLinkedin,
   FaLocationArrow,
   FaPhone,
   FaTelegram,
 } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
+import { AiFillInstagram } from "react-icons/ai";
+import { BsTwitterX } from "react-icons/bs";
 
 export default function Footer() {
+  const links = [
+    { name: "تلگرام", logo: <FaTelegram size={"1.2em"} /> },
+    { name: "اینستاگرام", logo: <AiFillInstagram size={"1.2em"} /> },
+    { name: "لینکدین", logo: <FaLinkedin size={"1.2em"} /> },
+    { name: "X", logo: <BsTwitterX size={"1.2em"} /> },
+  ];
+
+  const details = [
+    {
+      title: "تلفن",
+      value: "02166676666",
+      logo: <FaPhone className="text-accent rotate-[270deg] text-2xl" />,
+    },
+    {
+      title: "کانال تلگرام:",
+      value: "t.me/SEPANTA_TEHRAN",
+      logo: <FaTelegram className="text-accent text-2xl" />,
+    },
+    {
+      title: "ایمیل:",
+      value: "info@SEPANTA-TEHRAN.com",
+      logo: <MdEmail className="text-accent text-2xl" />,
+    },
+    {
+      title: "ادرس:",
+      value: "تهران، بازار آهن شادآباد بلوار مدائن ساختمان آهن 2",
+      logo: <FaLocationArrow className="text-accent text-2xl" />,
+    },
+  ];
+
   return (
     <>
       <div className="w-full flex flex-col items-center justify-center gap-10 mx-auto bg-white text-black">
@@ -31,6 +63,15 @@ export default function Footer() {
               سابقه دراز مدت و نمایندگی های رسمی اخذ شده و تیم های حرفه ای، در
               آهن پرایس بر این تلاشیم تا رضایت حداکثری مشتریان را کسب کنیم.
             </span>
+
+            {/* links */}
+            <div className="w-full flex gap-5 my-5">
+              {links.map((li) => (
+                <div className="hover:text-accent text-gray-400" key={li.name}>
+                  {li.logo}
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* quick access */}
@@ -48,43 +89,16 @@ export default function Footer() {
             <span className="text-3xl">اطلاعات تماس</span>
 
             <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-5">
-                <FaPhone className="text-accent rotate-[270deg] text-2xl" />
+              {details.map((d) => (
+                <div key={d.title} className="flex items-center gap-5">
+                  {d.logo}
 
-                <div className="flex flex-col">
-                  <span className="text-lg">تلفن:</span>
-                  <span>02154103</span>
+                  <div className="flex flex-col">
+                    <span className="text-lg">{d.title}</span>
+                    <span>{d.value}</span>
+                  </div>
                 </div>
-              </div>
-
-              <div className="flex items-center gap-5">
-                <FaTelegram className="text-accent text-2xl" />
-
-                <div className="flex flex-col">
-                  <span className="text-lg">کانال تلگرام:</span>
-                  <span>t.me/AhanPrice</span>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-5">
-                <MdEmail className="text-accent text-2xl" />
-
-                <div className="flex flex-col">
-                  <span className="text-lg">ایمیل:</span>
-                  <span>info@sorenafelez.com</span>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-5">
-                <FaLocationArrow className="text-accent text-2xl" />
-
-                <div className="flex flex-col">
-                  <span className="text-lg">آدرس:</span>
-                  <span>
-                    تهران، بازار آهن شادآباد بلوار مدائن ساختمان آهن 2
-                  </span>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>

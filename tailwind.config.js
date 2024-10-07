@@ -16,7 +16,7 @@ module.exports = {
         accent: "#15a1ed",
       },
       transitionProperty: {
-        rotate: "rotate",
+        rotate: "all ease 1s",
       },
     },
   },

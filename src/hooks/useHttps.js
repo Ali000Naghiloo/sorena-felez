@@ -34,6 +34,10 @@ const useHttp = () => {
         toast.error("شما به این بخش دسترسی ندارید");
       } else if (response?.status === 404) {
         toast.error("درخواست مورد نظر شما پیدا نشد");
+      } else if (response?.status === 429) {
+        toast.error(
+          "به علت تعداد درخواست زیاد شما قادر به ارسال درخواست بیشتر نیستید"
+        );
       } else if (response?.status === 500) {
         toast.error("مشکلی از سمت سرور پیش آمده لطفا بعدا تلاش کنید");
       } else if (response?.data?.msg) {

@@ -1,6 +1,6 @@
 "use client";
 import useHttp, { imageUrl } from "@/src/hooks/useHttps";
-import { Skeleton, Tabs, Tag } from "antd";
+import { Skeleton, Table, Tabs, Tag } from "antd";
 import moment from "jalali-moment";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -34,6 +34,31 @@ export default function Product() {
     { name: "Page F", uv: 300, pv: 600, amt: 2000 },
     { name: "Page G", uv: 300, pv: 600, amt: 2000 },
   ]);
+
+  const tableColumns = [
+    {
+      key: "date",
+      dataIndex: "date",
+      title: <div className="p-3 text-xl">تاریخ</div>,
+      render: (date) => (
+        <>{date ? moment(date).locale("fa").format("YYYY/MM/DD") : "-"}</>
+      ),
+    },
+    {
+      key: "price",
+      dataIndex: "price",
+      title: <div className="p-3 text-xl">قیمت</div>,
+      render: (price) => (
+        <>{price ? formatHelper.numberSeperator(price) : "-"}</>
+      ),
+    },
+    {
+      key: "navasan",
+      dataIndex: "",
+      title: <div className="p-3 text-xl">نوسان</div>,
+      render: (data) => <>{0}</>,
+    },
+  ];
 
   const CustomizedAxisTick = ({ x, y, stroke, payload }) => {
     return (
@@ -105,70 +130,25 @@ export default function Product() {
 
   return (
     <>
-      <div className="w-full max-w-[1600px] mx-auto py-10 px-5">
+      <div className="w-full flex flex-col gap-5 max-w-[1300px] mx-auto py-10 px-5">
         {!loading ? (
           <>
             {/* page titles */}
             <div className="w-full flex gap-2 items-center">
               <h1 className="text-4xl">{productData?.name}</h1>
-
-              {/* categories */}
-              {productData?.categories?.length !== 0
-                ? productData?.categories?.map((cat) => (
-                    <Tag
-                      color="cyan-inverse"
-                      className="cursor-pointer !h-fit"
-                      onClick={() => handleNavigate(cat?.slug, cat?.type)}
-                    >
-                      <span>{cat.name}</span>
-                    </Tag>
-                  ))
-                : null}
-
-              {/* cities */}
-              {productData?.cities?.length !== 0
-                ? productData?.cities?.map((ci) => (
-                    <Tag
-                      color="geekblue"
-                      className="cursor-pointer !h-fit"
-                      onClick={() => handleNavigate(ci?.slug, ci?.type)}
-                    >
-                      <span>{ci.name}</span>
-                    </Tag>
-                  ))
-                : null}
-            </div>
-
-            {/* parameters */}
-            <div className="w-full flex flex-col gap-5">
-              {productData?.parameters
-                ? productData?.parameters?.map((pr) => (
-                    <div key={pr.id} className="">
-                      <span className="text-lg text-gray-400">
-                        {pr?.name} :{" "}
-                      </span>
-                      <span className="text-lg font-bold">{pr?.value}</span>
-                    </div>
-                  ))
-                : null}
-            </div>
-
-            {/* descriptions */}
-            <div className="w-full my-14 flex flex-col">
-              <span className="text-gray-400">توضیحات : </span>
-              <p
-                className="text-lg"
-                dangerouslySetInnerHTML={{ __html: productData?.description }}
-              ></p>
             </div>
 
             {/* datas */}
-            <div className="w-full flex justify-between bg-pagesBackground p-20 rounded-xs">
+            <div className="w-full flex flex-col lg:flex-row justify-between bg-pagesBackground p-20 rounded-xs">
               <div className="w-fit h-full flex flex-col bg-white rounded-lg">
                 <Tabs
                   items={[
-                    { key: "weekly", title: "نمودار هفتگی" },
-                    { key: "monthly", title: "نمودار ماهانه" },
+                    { key: "weekly", title: "نمودار هفتگی", render: () => {} },
+                    {
+                      key: "monthly",
+                      title: "نمودار ماهانه",
+                      render: () => {},
+                    },
                   ]}
                 />
                 {/* <ResponsiveContainer width={"100%"} height={"100%"}> */}
@@ -237,6 +217,72 @@ export default function Product() {
                     })
                   : null}
               </div>
+            </div>
+
+            <div className="w-full flex flex-col lg:flex-row gap-5 mt-10">
+              <div className="lg:min-w-[60%] flex flex-wrap gap-5">
+                {/* parameters */}
+                {productData?.parameters
+                  ? productData?.parameters?.map((pr) => (
+                      <div
+                        key={pr.id}
+                        className="w-[300px] h-fit flex justify-between p-5 text-lg border-b"
+                      >
+                        <span className="text-lg text-gray-400">
+                          {pr?.name} :{" "}
+                        </span>
+                        <span className="text-lg font-bold">{pr?.value}</span>
+                      </div>
+                    ))
+                  : null}
+
+                {/* categories */}
+                {productData?.categories?.length !== 0
+                  ? productData?.categories?.map((cat) => (
+                      <div
+                        key={cat.id}
+                        className="w-[300px] h-fit flex justify-between p-5 text-lg border-b"
+                        onClick={() => handleNavigate(cat?.slug, cat?.type)}
+                      >
+                        <span>دسته بندی : </span>
+                        <span>{cat.name}</span>
+                      </div>
+                    ))
+                  : null}
+
+                {/* cities */}
+                {productData?.cities?.length !== 0
+                  ? productData?.cities?.map((ci) => (
+                      <div
+                        key={ci.id}
+                        className="w-[300px] h-fit flex justify-between p-5 text-lg border-b"
+                        onClick={() => handleNavigate(cat?.slug, cat?.type)}
+                      >
+                        <span>شهر : </span>
+                        <span className="text-accent">{ci.name}</span>
+                      </div>
+                    ))
+                  : null}
+              </div>
+
+              <div className="w-full">
+                <Table
+                  bordered
+                  pagination={{ position: ["none"] }}
+                  columns={tableColumns}
+                  dataSource={data}
+                  fi
+                />
+              </div>
+            </div>
+
+            {/* descriptions */}
+            <div className="w-full my-14 flex flex-col">
+              <span className="text-gray-400">توضیحات : </span>
+              <p
+                className="text-lg"
+                dangerouslySetInnerHTML={{ __html: productData?.description }}
+              ></p>
             </div>
           </>
         ) : (

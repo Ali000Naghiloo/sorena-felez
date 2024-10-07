@@ -1,6 +1,6 @@
 "use client";
 import useHttp, { imageUrl } from "@/src/hooks/useHttps";
-import { Button, Select, Table } from "antd";
+import { Button, Checkbox, Select, Table } from "antd";
 import moment from "jalali-moment";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -97,58 +97,6 @@ export default function Filters() {
     setLoading(false);
   };
 
-  const handleGetFilterLists = async () => {
-    let categoris = [];
-    let cities = [];
-    let companies = [];
-    let parameters = [];
-
-    await httpService
-      .get("getCategories")
-      .then((res) => {
-        categoris = res.data;
-      })
-      .catch(() => {});
-
-    await httpService
-      .get("getCities")
-      .then((res) => {
-        cities = res.data;
-      })
-      .catch(() => {});
-
-    await httpService
-      .get("getCompanies")
-      .then((res) => {
-        companies = res.data;
-      })
-      .catch(() => {});
-
-    await httpService
-      .get("getParameters")
-      .then((res) => {
-        parameters = res.data;
-      })
-      .catch(() => {});
-
-    setFilters({
-      categories: categoris,
-      companies: companies,
-      cities: cities,
-      parameters: parameters,
-    });
-
-    if (type === "category") {
-      setSelectedFilters({ ...selectedFilters, categories: slug });
-    }
-    if (type === "city") {
-      setSelectedFilters({ ...selectedFilters, cities: slug });
-    }
-    if (type === "companies") {
-      setSelectedFilters({ ...selectedFilters, companies: slug });
-    }
-  };
-
   const handleGetFilterdList = async () => {
     setLoading(true);
     const formData = {
@@ -168,21 +116,77 @@ export default function Filters() {
     setLoading(false);
   };
 
+  const handleGetFilterLists = async () => {
+    if (filters.categories.length === 0) {
+      let categoris = [];
+      let cities = [];
+      let companies = [];
+      let parameters = [];
+
+      await httpService
+        .get("getCategories")
+        .then((res) => {
+          categoris = res.data;
+        })
+        .catch(() => {});
+
+      await httpService
+        .get("getCities")
+        .then((res) => {
+          cities = res.data;
+        })
+        .catch(() => {});
+
+      await httpService
+        .get("getCompanies")
+        .then((res) => {
+          companies = res.data;
+        })
+        .catch(() => {});
+
+      await httpService
+        .get("getParameters")
+        .then((res) => {
+          parameters = res.data;
+        })
+        .catch(() => {});
+
+      setFilters({
+        categories: categoris,
+        companies: companies,
+        cities: cities,
+        parameters: parameters,
+      });
+    }
+
+    if (type === "category") {
+      setSelectedFilters({ ...selectedFilters, categories: slug });
+    }
+    if (type === "city") {
+      setSelectedFilters({ ...selectedFilters, cities: slug });
+    }
+    if (type === "companies") {
+      setSelectedFilters({ ...selectedFilters, companies: slug });
+    }
+
+    if (filterdList.length === 0) {
+      handleGetFilterdList();
+    }
+  };
+
   useEffect(() => {
     // console.log(slug);
-    handleGetListByCategory();
+    if (type === "category") {
+      handleGetListByCategory();
+    }
     handleGetFilterLists();
   }, [slug]);
 
-  useEffect(() => {
-    console.log(type);
-  }, [type]);
-
   return (
     <>
-      <div className="w-full max-w-[1600px] mx-auto flex flex-col items-center p-10">
+      <div className="w-full max-w-[1600px] mx-auto flex flex-col items-center p-3 lg:p-10">
         {/* page titles */}
-        <div className="w-full py-6 mb-10 flex flex-col gap-2">
+        <div className="w-full py-6 flex flex-col gap-2">
           <div className="flex gap-2 items-center">
             <h1 className="text-4xl">{pageData.title}</h1>
 
@@ -200,9 +204,9 @@ export default function Filters() {
           <div className="w-full "></div>
         </div>
 
-        <div className="w-full flex flex-col lg:flex-row gap-2">
+        <div className="w-full flex flex-col lg:flex-row gap-10 lg:gap-2">
           {/* filters */}
-          <div className="w-full lg:w-[20%] flex flex-col gap-5 bg-slate-200 rounded-lg p-3">
+          <div className="w-full lg:w-[20%] flex flex-col gap-5 bg-slate-200 rounded-lg p-3 !scrollbar">
             <div className="flex flex-col">
               <h3 className="text-2xl">فیلتر ها</h3>
               <span className="text-sm text-gray-400">
@@ -263,20 +267,41 @@ export default function Filters() {
             </div>
 
             {/* parameters */}
-            <div className="flex flex-col w-full">
+            <div className="flex flex-col w-full scrollbar">
               <span>پارامتر ها</span>
-              <Select
-                allowClear
-                mode="multiple"
-                optionFilterProp="label"
-                fieldNames={{ label: "value", value: "slug" }}
-                options={filters.parameters}
-                value={selectedFilters.parameters}
-                onChange={(e) => {
-                  setSelectedFilters({ ...selectedFilters, parameters: e });
-                }}
-                placeholder="دسته بندی های خود را انتخاب کنید"
-              />
+              <div className="w-full h-[200px] bg-white overflow-y-auto rounded-lg flex flex-col p-2">
+                {filters.parameters && filters?.parameters?.length
+                  ? filters.parameters?.map((pr) => (
+                      <div className="w-full flex justify-between items-center text-sm">
+                        <span>{pr?.name}</span>
+                        <div className="flex gap-1">
+                          <span>{pr?.value}</span>
+                          <Checkbox
+                            onChange={(e) => {
+                              if (e.target.checked) {
+                                setSelectedFilters({
+                                  ...selectedFilters,
+                                  parameters: [
+                                    ...selectedFilters.parameters,
+                                    pr.slug,
+                                  ],
+                                });
+                              } else {
+                                setSelectedFilters({
+                                  ...selectedFilters,
+                                  parameters:
+                                    selectedFilters.parameters?.filter(
+                                      (value) => value !== pr?.slug
+                                    ),
+                                });
+                              }
+                            }}
+                          />
+                        </div>
+                      </div>
+                    ))
+                  : null}
+              </div>
             </div>
 
             {/* submit */}
@@ -288,11 +313,12 @@ export default function Filters() {
           </div>
 
           {/* filterd data */}
-          <div className="w-full">
+          <div className="w-full overflow-auto">
             <Table
               columns={columns}
               dataSource={filterdList}
               loading={loading}
+              rowKey="id"
             />
           </div>
         </div>
