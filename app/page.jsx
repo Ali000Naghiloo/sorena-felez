@@ -1,9 +1,49 @@
 import Landing from "@/src/components/landing/Landing";
+import { baseURL } from "@/src/hooks/useHttps";
 import axios from "axios";
 
 export const getPosts = async () => {
   const datas = await axios
-    .get("getMenus")
+    .get(`${baseURL}getPosts`)
+    .then((res) => {
+      return res.data;
+    })
+    .catch(() => {
+      return [];
+    });
+
+  return datas;
+};
+
+export const getPostCategories = async () => {
+  const datas = await axios
+    .get(`${baseURL}getPostCategories`)
+    .then((res) => {
+      return res.data;
+    })
+    .catch(() => {
+      return [];
+    });
+
+  return datas;
+};
+
+export const getEmployeesGroups = async () => {
+  const datas = await axios
+    .get(`${baseURL}getGroups`)
+    .then((res) => {
+      return res.data;
+    })
+    .catch(() => {
+      return [];
+    });
+
+  return datas;
+};
+
+export const getEmployeesByGroup = async () => {
+  const datas = await axios
+    .get(`${baseURL}getTeamByGroup`)
     .then((res) => {
       return res.data;
     })
@@ -15,24 +55,19 @@ export const getPosts = async () => {
 };
 
 export default async function Home() {
-  const data = await axios
-    .get("https://sorena.webcomdemo.ir/api/v1/getMenus")
-    .then((res) => {
-      return res.data;
-    })
-    .catch(() => {
-      return [];
-    });
-  console.log(data);
+  const posts = await getPosts();
+  const postCategories = await getPostCategories();
+  const groups = await getEmployeesGroups();
+  const employees = await getEmployeesByGroup();
 
   return (
     <>
-      {data && data.length !== 0 ? (
-        data.map((d) => <div>{d.name}</div>)
-      ) : (
-        <>دیتایی نیست</>
-      )}
-      {/* <Landing /> */}
+      <Landing
+        posts={posts}
+        postCategories={postCategories}
+        employees={employees}
+        employeesGroups={groups}
+      />
     </>
   );
 }

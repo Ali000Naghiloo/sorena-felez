@@ -43,7 +43,7 @@ export default function Filters() {
       dataIndex: "created_at",
       render: (date) => (
         <div className="text-blue-500 font-bold">
-          {date ? moment(date).format("YYYY/MM/DD") : "-"}
+          {date ? moment(date).locale("fa").format("YYYY/MM/DD") : "-"}
         </div>
       ),
       key: "created_at",
@@ -165,20 +165,18 @@ export default function Filters() {
     if (type === "city") {
       setSelectedFilters({ ...selectedFilters, cities: slug });
     }
-    if (type === "companies") {
+    if (type === "company") {
       setSelectedFilters({ ...selectedFilters, companies: slug });
     }
 
-    if (filterdList.length === 0) {
-      handleGetFilterdList();
-    }
+    await handleGetFilterdList();
   };
 
   useEffect(() => {
     // console.log(slug);
-    if (type === "category") {
-      handleGetListByCategory();
-    }
+    // if (type === "category") {
+    //   handleGetListByCategory();
+    // }
     handleGetFilterLists();
   }, [slug]);
 

@@ -37,15 +37,15 @@ export default function Header() {
   const handleGetMenu = async () => {
     setLoading(true);
     const transformData = (data) => {
-      return data.map((item) => {
+      return data.map((item, index) => {
         // Create the transformed object for each item
         const transformedItem = {
-          key: item.id, // id becomes key
+          key: Math.random() * 100000, // id becomes key
           label: (
             <div
-              onClick={() =>
-                router.push(`/filters?type=${item?.type}&slug=${item?.slug}`)
-              }
+              onClick={(e) => {
+                router.push(`/filters?type=${item?.type}&slug=${item?.slug}`);
+              }}
               className="w-full !min-w-full flex text-lg font-medium"
             >
               {item.name}

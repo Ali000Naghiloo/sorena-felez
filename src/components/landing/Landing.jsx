@@ -3,36 +3,33 @@ import Image from "next/image";
 // import gif from "";
 import banner from "@/public/assets/landing/banner.jpg";
 import employee from "@/public/assets/landing/employee.webp";
-import employees from "@/public/assets/landing/employees.webp";
+import employeeImage from "@/public/assets/landing/employees.webp";
 import { Button, Input, Table, Tabs } from "antd";
 import dynamic from "next/dynamic";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { FaHeart, FaPhone, FaWeightScale } from "react-icons/fa6";
+import { FaHeart, FaWeightScale } from "react-icons/fa6";
 import useHttp, { imageUrl } from "@/src/hooks/useHttps";
-import { useEffect, useState } from "react";
 import formatHelper from "../helper/formatHelper";
 import moment from "jalali-moment";
-import { Pagination } from "swiper/modules";
 import { MdCheckCircleOutline } from "react-icons/md";
 import { IoMdSettings } from "react-icons/io";
 import { BsBookmarkCheckFill } from "react-icons/bs";
 import { FaTruck } from "react-icons/fa";
-import { useAppSelector } from "@/src/hooks";
-import { useWindowSize } from "@uidotdev/usehooks";
 import Link from "next/link";
 import MobileLanding from "./MobileLanding";
+import EmployeesPreview from "./EmployeesPreview";
+import { useWindowWidth } from "@/src/hooks/useClientWidth";
+import { useWindowSize } from "@uidotdev/usehooks";
 
 const { Search } = Input;
-export default function Landing() {
+export default function Landing({
+  posts,
+  postCategories,
+  employees,
+  employeesGroups,
+}) {
   const { httpService } = useHttp();
   const size = useWindowSize();
-  const [loading, setLoading] = useState(false);
-  const [pageData, setPageData] = useState({
-    posts: null,
-    category: null,
-    products: null,
-  });
-  const categories = useAppSelector((state) => state?.categories?.categories);
+  // const categories = useAppSelector((state) => state?.categories?.categories);
 
   const dataTableTabs = [
     {
@@ -64,67 +61,6 @@ export default function Landing() {
       key: "varagh",
       label: <div className="text-2xl">ورق</div>,
       children: <></>,
-    },
-  ];
-
-  const employeesCategory = [
-    {
-      key: "tab-1",
-      label: <span className="text-xl">گروه یک فروش</span>,
-      children: <></>,
-    },
-    {
-      key: "tab-2",
-      label: <div className="text-xl">گروه دو فروش</div>,
-      children: <></>,
-    },
-    {
-      key: "tab-3",
-      label: <div className="text-xl">گروه سه فروش</div>,
-      children: <></>,
-    },
-    {
-      key: "tab-4",
-      label: <div className="text-xl">گروه سرپرستی فروش</div>,
-      children: <></>,
-    },
-  ];
-
-  const employeesList = [
-    {
-      name: "سمیه فتاحی",
-      role: "کارشناس",
-      image: employee,
-      phone: "021-54103",
-      mobile: "09912057728",
-    },
-    {
-      name: "سمیه فتاحی",
-      role: "کارشناس",
-      image: employee,
-      phone: "021-54103",
-      mobile: "09912057728",
-    },
-    {
-      name: "سمیه فتاحی",
-      role: "کارشناس",
-      image: employee,
-      phone: "021-54103",
-      mobile: "09912057728",
-    },
-    {
-      name: "سمیه فتاحی",
-      role: "کارشناس",
-      image: employee,
-      phone: "021-54103",
-      mobile: "09912057728",
-    },
-    {
-      name: "سمیه فتاحی",
-      role: "کارشناس",
-      image: employee,
-      phone: "021-54103",
-      mobile: "09912057728",
     },
   ];
 
@@ -196,40 +132,6 @@ export default function Landing() {
       ),
     },
   ];
-
-  const weblogFilters = [
-    { label: "اخبار بازار آهن" },
-    { label: "اخبار بازار مسکن" },
-    { label: "اخبار بازار فولاد" },
-    { label: "دانشنامه تصویری فلزات" },
-    { label: "دانشنامه" },
-  ];
-
-  const handleGetPosts = async () => {
-    setLoading(true);
-
-    await httpService
-      .get("getPosts")
-      .then((res) => {
-        if (res?.data) setPageData({ ...pageData, posts: res.data });
-      })
-      .catch();
-  };
-
-  const handleGetProducts = async () => {
-    setLoading(true);
-
-    await httpService
-      .get("getProducts")
-      .then((res) => {
-        if (res?.data) setPageData({ ...pageData, posts: res.data });
-      })
-      .catch();
-  };
-
-  useEffect(() => {
-    // handleGetPosts();
-  }, []);
 
   if (size && size.width > 1000) {
     return (
@@ -328,57 +230,10 @@ export default function Landing() {
             {/* title */}
             <p className="text-3xl">استعلام لحظه ای قیمت آهن آلات</p>
 
-            <div className="w-full">
-              <Tabs items={employeesCategory} className="" />
-
-              <div className="w-full py-5">
-                <Swiper
-                  slidesPerView={"auto"}
-                  spaceBetween={"50"}
-                  modules={[Pagination]}
-                  className="cursor-pointer"
-                >
-                  {employeesList.map((em, index) => (
-                    <SwiperSlide
-                      className="!w-[300px] flex justify-center items-center mx-5"
-                      key={index}
-                    >
-                      <div className="flex w-full justify-center items-center">
-                        {/* profile */}
-                        <div className="w-[120px]">
-                          <Image
-                            src={em.image}
-                            alt={em.name}
-                            className="w-full h-full object-cover rounded-lg"
-                          />
-                        </div>
-
-                        <div className="flex flex-col h-full py-3">
-                          <div className="flex flex-col px-3">
-                            <div className="flex flex-col">
-                              <span className="text-xl">{em.name}</span>
-                              <span className="text-gray-500">{em.role}</span>
-                            </div>
-                          </div>
-
-                          <div className="flex flex-col bg-accent text-white p-3 pl-6 pr-0 rounded-l-lg h-[50%]">
-                            <div className="flex relative p-2 pl-4 bg-gray-600 rounded-l-lg">
-                              {em.mobile}
-
-                              <div className="bg-white text-gray-600 p-1 rounded-sm absolute left-[0] top-[50%] translate-x-[-50%] translate-y-[-50%]">
-                                <FaPhone className="rotate-[270deg]" />
-                              </div>
-                            </div>
-
-                            <span className="mr-auto">{em.phone}</span>
-                          </div>
-                        </div>
-                      </div>
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-              </div>
-            </div>
+            <EmployeesPreview
+              employeesGroups={employeesGroups}
+              allEmployees={employees}
+            />
           </div>
 
           {/* features */}
@@ -444,14 +299,14 @@ export default function Landing() {
           {/* employees */}
           <div className="w-full h-fit py-5">
             <Image
-              src={employees}
+              src={employeeImage}
               alt=""
               className="w-full h-full object-cover"
             />
           </div>
 
           {/* weblogs */}
-          <div className="w-full flex flex-wrap flex-col lg:flex-row items-center lg:items-start gap-16 lg:gap-10 my-5 px-5 max-w-[1300px]">
+          <div className="w-full flex flex-wrap flex-col justify-evenly lg:flex-row items-center lg:items-start gap-16 lg:gap-10 my-5 px-5 max-w-[1300px]">
             {/* filters */}
             <div className="flex flex-col gap-5 min-w-[350px]">
               <span className="text-2xl">جستجو مطالب</span>
@@ -462,65 +317,80 @@ export default function Landing() {
 
               <div className="flex flex-col gap-3">
                 <span className="text-2xl mb-5">دسته بندی</span>
-                {weblogFilters.map((wf, index) => (
-                  <div
-                    key={index}
-                    className={`${index == 0 ? "border-t" : ""} border-b p-4`}
-                  >
-                    {wf.label}
-                  </div>
-                ))}
+                {postCategories &&
+                  postCategories.map((wf, index) => (
+                    <div
+                      key={index}
+                      className={`${index == 0 ? "border-t" : ""} border-b p-4`}
+                    >
+                      {wf.name}
+                    </div>
+                  ))}
               </div>
             </div>
 
             {/* weblogs */}
-            <div className="flex flex-col">
-              <h2 className="text-3xl border-b-2 pb-3">
-                جدید ترین های بازار آهن
-              </h2>
+            {postCategories
+              ? postCategories?.map((pc) => (
+                  <div className="max-w-[350px] flex flex-col">
+                    <h2 className="text-3xl border-b-2 pb-3">{pc?.name}</h2>
 
-              {pageData.posts
-                ? pageData.posts.map((post, index) => (
-                    <div key={index} className="flex gap-5 border-y py-3">
-                      <div className="h-[100px] py-5">
-                        <Image
-                          width={100}
-                          height={50}
-                          src={imageUrl + post?.image}
-                          alt=""
-                          className="w-full h-full rounded-lg object-cover"
-                        />
-                      </div>
+                    {posts
+                      ? posts.map((post, index) => {
+                          if (pc?.id === post?.categorypost_id) {
+                            return (
+                              <div
+                                key={index}
+                                className="w-full h-[80px] flex items-center gap-5 border-y py-3"
+                              >
+                                <div className="w-[40%] h-full cursor-pointer rounded-lg">
+                                  <Image
+                                    width={100}
+                                    height={50}
+                                    src={imageUrl + post?.image}
+                                    alt=""
+                                    className="w-full h-full rounded-lg object-contain"
+                                  />
+                                </div>
 
-                      <div className="flex flex-col">
-                        <span>{formatHelper.cutString(post?.title)}</span>
-                        <span>
-                          {post?.created_at
-                            ? formatHelper.toPersianString(
-                                moment(post?.created_at)
-                                  .locale("fa")
-                                  .format("HH:mm")
-                              )
-                            : null}{" "}
-                          -
-                          {post?.created_at
-                            ? formatHelper.toPersianString(
-                                moment(post?.created_at)
-                                  .locale("fa")
-                                  .format("YYYY/MM/DD")
-                              )
-                            : null}{" "}
-                        </span>
-                      </div>
-                    </div>
-                  ))
-                : null}
-            </div>
+                                <div className="flex flex-col">
+                                  <Link
+                                    href={`weblogs/weblog?slug=${post.slug}`}
+                                    className="text-sm cursor-pointer hover:text-accent"
+                                  >
+                                    {formatHelper.cutString(post?.title)}
+                                  </Link>
+                                  <span className="text-sm text-gray-400">
+                                    {post?.created_at
+                                      ? formatHelper.toPersianString(
+                                          moment(post?.created_at)
+                                            .locale("fa")
+                                            .format("HH:mm")
+                                        )
+                                      : null}{" "}
+                                    -
+                                    {post?.created_at
+                                      ? formatHelper.toPersianString(
+                                          moment(post?.created_at)
+                                            .locale("fa")
+                                            .format("YYYY/MM/DD")
+                                        )
+                                      : null}{" "}
+                                  </span>
+                                </div>
+                              </div>
+                            );
+                          }
+                        })
+                      : null}
+                  </div>
+                ))
+              : null}
           </div>
         </div>
       </>
     );
   } else {
-    return <MobileLanding />;
+    return <MobileLanding posts={posts} postCategories={postCategories} />;
   }
 }
