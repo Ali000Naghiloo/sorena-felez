@@ -15,7 +15,7 @@ export const getPosts = async () => {
   return datas;
 };
 
-export const getPostCategories = async () => {
+export const getWeblogCategories = async () => {
   const datas = await axios
     .get(`${baseURL}getPostCategories`)
     .then((res) => {
@@ -56,7 +56,7 @@ export const getEmployeesByGroup = async () => {
 
 export default async function Home() {
   const posts = await getPosts();
-  const postCategories = await getPostCategories();
+  const weblogCategories = await getWeblogCategories();
   const groups = await getEmployeesGroups();
   const employees = await getEmployeesByGroup();
 
@@ -64,8 +64,8 @@ export default async function Home() {
     <>
       <Landing
         posts={posts}
-        postCategories={postCategories}
         employees={employees}
+        weblogCategories={weblogCategories}
         employeesGroups={groups}
       />
     </>

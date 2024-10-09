@@ -19,12 +19,12 @@ import MobileLanding from "./MobileLanding";
 import EmployeesPreview from "./EmployeesPreview";
 import { useWindowWidth } from "@/src/hooks/useClientWidth";
 import { useWindowSize } from "@uidotdev/usehooks";
+import WeblogFilters from "../weblogs/WeblogFilters";
 
-const { Search } = Input;
 export default function Landing({
   posts,
-  postCategories,
   employees,
+  weblogCategories,
   employeesGroups,
 }) {
   const { httpService } = useHttp();
@@ -306,32 +306,13 @@ export default function Landing({
           </div>
 
           {/* weblogs */}
-          <div className="w-full flex flex-wrap flex-col justify-evenly lg:flex-row items-center lg:items-start gap-16 lg:gap-10 my-5 px-5 max-w-[1300px]">
+          <div className="w-full flex flex-wrap flex-col justify-evenly lg:flex-row items-center lg:items-start gap-16 lg:gap-10 my-14 px-5 max-w-[1300px]">
             {/* filters */}
-            <div className="flex flex-col gap-5 min-w-[350px]">
-              <span className="text-2xl">جستجو مطالب</span>
-              <Search
-                size="large"
-                placeholder="عبارت مورد نظر خود را بنویسید"
-              />
-
-              <div className="flex flex-col gap-3">
-                <span className="text-2xl mb-5">دسته بندی</span>
-                {postCategories &&
-                  postCategories.map((wf, index) => (
-                    <div
-                      key={index}
-                      className={`${index == 0 ? "border-t" : ""} border-b p-4`}
-                    >
-                      {wf.name}
-                    </div>
-                  ))}
-              </div>
-            </div>
+            <WeblogFilters weblogCategories={weblogCategories} />
 
             {/* weblogs */}
-            {postCategories
-              ? postCategories?.map((pc) => (
+            {weblogCategories
+              ? weblogCategories?.map((pc) => (
                   <div className="max-w-[350px] flex flex-col">
                     <h2 className="text-3xl border-b-2 pb-3">{pc?.name}</h2>
 
@@ -391,6 +372,6 @@ export default function Landing({
       </>
     );
   } else {
-    return <MobileLanding posts={posts} postCategories={postCategories} />;
+    return <MobileLanding posts={posts} weblogCategories={weblogCategories} />;
   }
 }

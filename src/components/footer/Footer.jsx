@@ -46,7 +46,7 @@ export default function Footer() {
   return (
     <>
       <div className="w-full flex flex-col items-center justify-center gap-10 mx-auto bg-white text-black">
-        <div className="w-full flex flex-wrap justify-between gap-5 border-t pt-20 mt-20 px-10 max-w-[1300px]">
+        <div className="w-full flex flex-wrap justify-between gap-5 border-t pt-20 px-10 max-w-[1300px]">
           {/* descriptions */}
           <div className="flex flex-col w-full lg:w-[30%]">
             {/* logo */}
