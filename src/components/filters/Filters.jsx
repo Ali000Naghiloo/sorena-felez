@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AiOutlineFundView } from "react-icons/ai";
+import formatHelper from "../helper/formatHelper";
 
 export default function Filters() {
   const { httpService } = useHttp();
@@ -39,6 +40,21 @@ export default function Filters() {
       key: "name",
     },
     {
+      title: "قیمت و نوسان",
+      dataIndex: "name",
+      render: (value) => (
+        <div className="flex font-bolder w-fit">
+          <div className="w-full min-w-[70px] rounded-3xl bg-[#9f9f9f] text-center text-white">
+            0
+          </div>
+          <span className="text-2xl">
+            {formatHelper.numberSeperator(1000000)}
+          </span>
+        </div>
+      ),
+      key: "name",
+    },
+    {
       title: "تاریخ",
       dataIndex: "created_at",
       render: (date) => (
@@ -47,14 +63,6 @@ export default function Filters() {
         </div>
       ),
       key: "created_at",
-    },
-    {
-      title: "توضیحات",
-      dataIndex: "description",
-      render: (value) => (
-        <div className="text" dangerouslySetInnerHTML={{ __html: value }}></div>
-      ),
-      key: "description",
     },
     {
       title: "",

@@ -10,16 +10,16 @@ import { Toaster } from "react-hot-toast";
 import { ReduxProvider } from "./react-provider";
 // import "swiper/swiper.min.css";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+// const geistSans = localFont({
+//   src: "./fonts/GeistVF.woff",
+//   variable: "--font-geist-sans",
+//   weight: "100 900",
+// });
+// const geistMono = localFont({
+//   src: "./fonts/GeistMonoVF.woff",
+//   variable: "--font-geist-mono",
+//   weight: "100 900",
+// });
 const persianFont = localFont({
   // src: "./fonts/yekan/Yekan.woff",
   src: "./fonts/b-yekan/Yekan.ttf",

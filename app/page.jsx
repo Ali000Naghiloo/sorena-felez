@@ -28,6 +28,19 @@ export const getWeblogCategories = async () => {
   return datas;
 };
 
+export const getProductCategories = async () => {
+  const datas = await axios
+    .get(`${baseURL}getCategories`)
+    .then((res) => {
+      return res.data;
+    })
+    .catch(() => {
+      return [];
+    });
+
+  return datas;
+};
+
 export const getEmployeesGroups = async () => {
   const datas = await axios
     .get(`${baseURL}getGroups`)
@@ -57,6 +70,7 @@ export const getEmployeesByGroup = async () => {
 export default async function Home() {
   const posts = await getPosts();
   const weblogCategories = await getWeblogCategories();
+  // const productCategories = await getProductCategories();
   const groups = await getEmployeesGroups();
   const employees = await getEmployeesByGroup();
 
@@ -65,6 +79,7 @@ export default async function Home() {
       <Landing
         posts={posts}
         employees={employees}
+        // productCategories={productCategories}
         weblogCategories={weblogCategories}
         employeesGroups={groups}
       />

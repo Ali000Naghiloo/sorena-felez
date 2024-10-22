@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { useWindowSize } from "@uidotdev/usehooks";
 import { useAppDispatch, useAppSelector } from "@/src/hooks";
 import { setCategories } from "@/src/store/reducers/category";
+import MobileMenu from "../MobileMenu";
 
 const loadings = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
 
@@ -213,6 +214,8 @@ export default function Header() {
             </div>
           </div>
         </div>
+
+        <MobileMenu categories={menuItems} />
       </>
     );
   }

@@ -17,13 +17,14 @@ import { FaTruck } from "react-icons/fa";
 import Link from "next/link";
 import MobileLanding from "./MobileLanding";
 import EmployeesPreview from "./EmployeesPreview";
-import { useWindowWidth } from "@/src/hooks/useClientWidth";
-import { useWindowSize } from "@uidotdev/usehooks";
+import useWindowSize from "@/src/hooks/useClientWidth";
+// import { useWindowSize } from "@uidotdev/usehooks";
 import WeblogFilters from "../weblogs/WeblogFilters";
 
 export default function Landing({
   posts,
   employees,
+  productCategories,
   weblogCategories,
   employeesGroups,
 }) {
@@ -34,32 +35,32 @@ export default function Landing({
   const dataTableTabs = [
     {
       key: "migerd",
-      label: <div className="text-2xl">میلگرد</div>,
+      label: <div className="text-2xl">لوله سیاه تست شده</div>,
       children: <></>,
     },
     {
       key: "tir-ahan",
-      label: <div className="text-2xl">تیرآهن</div>,
+      label: <div className="text-2xl">لوله سیاه آتش نشانی</div>,
       children: <></>,
     },
     {
       key: "profil",
-      label: <div className="text-2xl">پروفیل</div>,
+      label: <div className="text-2xl">لوله گالوانیزه</div>,
       children: <></>,
     },
     {
       key: "nabshi",
-      label: <div className="text-2xl">نبشی</div>,
+      label: <div className="text-2xl">لوله گازی استاندارد</div>,
       children: <></>,
     },
     {
       key: "manisman",
-      label: <div className="text-2xl">لوله مانیسمان</div>,
+      label: <div className="text-2xl">لوله گازی استاندارد 3360</div>,
       children: <></>,
     },
     {
       key: "varagh",
-      label: <div className="text-2xl">ورق</div>,
+      label: <div className="text-2xl">گروه صنعتی سپنتا</div>,
       children: <></>,
     },
   ];
@@ -192,7 +193,11 @@ export default function Landing({
           <div className="w-full flex flex-col gap-10 bg-pagesBackground py-16">
             {/* table */}
             <div className="w-full px-5 max-w-[1300px] mx-auto">
-              <Tabs items={dataTableTabs} size="large" />
+              <Tabs
+                items={dataTableTabs}
+                size="large"
+                className="border-none"
+              />
               <Table columns={[]} dataSource={[]} className="w-full" />
             </div>
 
